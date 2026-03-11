@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquétipo & Jornada — Gilson Marques 2026</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #1a2a3a;
+  --navy-mid: #243547;
+  --navy-light: #2e4259;
+  --gold: #c9a227;
+  --stone: #f5f3ef;
+  --white: #ffffff;
+  --border: #2e4259;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: var(--navy);
+  color: var(--stone);
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--navy-mid);
+  border-bottom: 2px solid var(--gold);
+  padding: 48px 0 40px;
+  text-align: center;
+}
+
+.header-inner { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+.header-label {
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 32px;
+  color: var(--white);
+  font-weight: normal;
+  margin-bottom: 12px;
+}
+
+.header-sub {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  font-style: italic;
+}
+
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 20px auto 0;
+}
+
+.intro {
+  max-width: 800px;
+  margin: 48px auto 0;
+  padding: 0 24px;
+}
+
+.intro-box {
+  background: var(--navy-light);
+  border-left: 4px solid var(--gold);
+  padding: 32px 36px;
+  border-radius: 0 4px 4px 0;
+}
+
+.intro-box p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 14px;
+}
+
+.intro-box p:last-child { margin-bottom: 0; }
+.intro-box strong { color: var(--gold); }
+
+/* LAYER */
+.layer-header {
+  max-width: 800px;
+  margin: 56px auto 0;
+  padding: 0 24px;
+}
+
+.layer-number {
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.layer-title {
+  font-size: 22px;
+  color: var(--white);
+  font-weight: normal;
+  margin-bottom: 6px;
+}
+
+.layer-desc {
+  font-family: 'Arial', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+}
+
+.layer-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-top: 20px;
+}
+
+/* QUESTIONS */
+.questions { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+
+.q-card {
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px 36px;
+  margin-top: 24px;
+}
+
+.q-number {
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.q-text {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.q-context {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 20px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+  line-height: 1.6;
+}
+
+textarea {
+  width: 100%;
+  min-height: 140px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 16px;
+  font-family: 'Georgia', serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--stone);
+  background: var(--navy);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  border-color: var(--gold);
+  background: var(--navy-mid);
+}
+
+textarea::placeholder { color: #999; font-style: italic; }
+
+/* ACTIONS */
+.actions {
+  max-width: 800px;
+  margin: 40px auto 0;
+  padding: 0 24px 80px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'Arial', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: bold;
+}
+
+.btn-primary:hover { background: #e8b92a; }
+
+.btn-secondary {
+  background: var(--navy-light);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.btn-secondary:hover { background: #334758; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--navy);
+  color: var(--white);
+  padding: 14px 24px;
+  border-radius: 4px;
+  border: 1px solid var(--gold);
+  font-family: 'Arial', sans-serif;
+  font-size: 13px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 32px;
+  font-family: 'Arial', sans-serif;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .header h1 { font-size: 24px; }
+  .q-card { padding: 24px; }
+  .actions { flex-direction: column; }
+  .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-label">Campanha Deputado Estadual 2026</div>
+    <h1>Arquétipo & Jornada do Herói</h1>
+    <div class="header-sub">Entrevista Estratégica com Gilson Marques</div>
+    <div class="gold-line"></div>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="intro-box">
+    <p><strong>Gilson,</strong></p>
+    <p>Esta não é uma entrevista sobre política. É sobre você.</p>
+    <p>As respostas aqui não vão para press release, não vão para algoritmo, não vão para parecer estratégico. Vão para a equipe entender quem você realmente é — para construir comunicação que é autêntica porque é honesta.</p>
+    <p>Não existem respostas certas ou erradas. Existem apenas respostas verdadeiras.</p>
+    <p>Suas respostas são salvas automaticamente. Pode responder em uma vez ou voltar depois. Use o botão "Exportar" para fazer backup ou compartilhar com a equipe.</p>
+  </div>
+</div>
+
+<!-- LAYER 1 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 1 — 3 perguntas</div>
+  <div class="layer-title">Quem Você É</div>
+  <div class="layer-desc">Origem, valores, decisões que moldaram você</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 01</div>
+    <div class="q-text">Qual é a ferida de origem da sua infância nômade que ainda molda como você vê a política?</div>
+    <div class="q-context">A dor original é o que faz você humano. Não a versão polida — o momento que ainda pesa.</div>
+    <textarea id="q1" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 02</div>
+    <div class="q-text">Quando você olha para Pomerode, o que ela representa para você que Brasília tenta fazer você esquecer?</div>
+    <div class="q-context">Pomerode é seu símbolo — precisão alemã, trabalho sem performance, resultados. O que essa cidade significa para você pessoalmente?</div>
+    <textarea id="q2" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 03</div>
+    <div class="q-text">Por que reeleição para Deputado Estadual AGORA, em vez de empurrar o Senado? O que mudou no seu pensamento?</div>
+    <div class="q-context">Esta é a virada estratégica — precisamos entender se é convicção ou pragmatismo. Ambos funcionam. A honestidade funciona melhor.</div>
+    <textarea id="q3" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+</div>
+
+<!-- LAYER 2 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 2 — 2 perguntas</div>
+  <div class="layer-title">A Rebelião</div>
+  <div class="layer-desc">O que você realmente fez — atos que provam quem você é</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 04</div>
+    <div class="q-text">Qual é o momento na sua carreira política em que você recusou algo que importava — que apenas você sabe?</div>
+    <div class="q-context">As recusas públicas (privilégios) já se sabem. Isto revela seu caráter real. Se existir, é a gema 4 — a recusa que ninguém viu.</div>
+    <textarea id="q4" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 05</div>
+    <div class="q-text">Se esta campanha de reeleição falhar, o que isso significa para você pessoalmente?</div>
+    <div class="q-context">Um rebelde sem risco parece performance. Um rebelde que sabe exatamente o que está apostando é humano e crível.</div>
+    <textarea id="q5" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+</div>
+
+<!-- LAYER 3 -->
+<div class="layer-header">
+  <div class="layer-number">Camada 3 — 5 perguntas</div>
+  <div class="layer-title">A Missão</div>
+  <div class="layer-desc">O que você quer — de verdade, não para agradar ninguém</div>
+  <div class="layer-divider"></div>
+</div>
+
+<div class="questions">
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 06</div>
+    <div class="q-text">Quem é UM eleitor que você está lutando para representar? Não agregado — uma pessoa real, com história.</div>
+    <div class="q-context">Mensagens genéricas ("eleitores de SC") falham. Uma pessoa específica = âncora emocional para todo o conteúdo.</div>
+    <textarea id="q6" placeholder="Descreva essa pessoa: quem é, o que faz, o que teme, o que merece..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 07</div>
+    <div class="q-text">O que você fará nos primeiros 100 dias como Deputado Estadual reeleito que prova que você é sério?</div>
+    <div class="q-context">Promessas vagas perdem eleições. Especificidade = credibilidade. "Vou protocolar X" funciona. "Vou lutar" não.</div>
+    <textarea id="q7" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 08</div>
+    <div class="q-text">Qual é o princípio que você NUNCA vai abrir mão, não importa o quê?</div>
+    <div class="q-context">Isto define sua marca. O que te diferencia é também o que você recusa. Limite claro = identidade clara.</div>
+    <textarea id="q8" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 09</div>
+    <div class="q-text">Quando as pessoas falarem sobre você em 10 anos, qual UMA frase você quer que digam?</div>
+    <div class="q-context">Não sobre votos. Não sobre poder. Sobre você como pessoa. Esta é a última linha de cada discurso de campanha.</div>
+    <textarea id="q9" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="q-card">
+    <div class="q-number">Pergunta 10</div>
+    <div class="q-text">O que você mais teme sobre esta campanha?</div>
+    <div class="q-context">Vulnerabilidade = confiança. Medo autêntico vence segurança manufactured. O que realmente o assusta?</div>
+    <textarea id="q10" placeholder="Escreva aqui..."></textarea>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="exportTXT()">Exportar Respostas (TXT)</button>
+  <button class="btn btn-secondary" onclick="exportJSON()">Exportar para Sistema (JSON)</button>
+  <button class="btn btn-secondary" onclick="clearAll()">Limpar Tudo</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  GILSON MARQUES 2026 — CAMPANHA DEPUTADO ESTADUAL — CharlAI × AGB
+</div>
+
+<script>
+const STORAGE_KEY = 'gilson_archetype_2026';
+const TOTAL = 10;
+
+const questions = [
+  "Q01 — A ferida de origem",
+  "Q02 — O que Pomerode significa",
+  "Q03 — Por que reeleição agora",
+  "Q04 — A recusa que ninguém sabe",
+  "Q05 — Se falhar, o que significa",
+  "Q06 — O eleitor que você defende",
+  "Q07 — Primeiros 100 dias",
+  "Q08 — O princípio inegociável",
+  "Q09 — O que digam em 10 anos",
+  "Q10 — O que você teme"
+];
+
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const data = JSON.parse(saved);
+    for (let i = 1; i <= TOTAL; i++) {
+      const el = document.getElementById('q' + i);
+      if (el && data['q' + i]) el.value = data['q' + i];
+    }
+  }
+});
+
+let saveTimer;
+document.addEventListener('input', (e) => {
+  if (e.target.matches('textarea')) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveToStorage();
+      showToast('✓ Salvo automaticamente');
+    }, 1000);
+  }
+});
+
+function saveToStorage() {
+  const data = {};
+  for (let i = 1; i <= TOTAL; i++) {
+    const el = document.getElementById('q' + i);
+    if (el) data['q' + i] = el.value;
+  }
+  data._saved = new Date().toISOString();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function exportTXT() {
+  saveToStorage();
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const date = new Date().toLocaleDateString('pt-BR');
+  let text = '=====================================\n';
+  text += 'GILSON MARQUES 2026\n';
+  text += 'ARQUÉTIPO & JORNADA — RESPOSTAS\n';
+  text += 'Exportado: ' + date + '\n';
+  text += 'CONFIDENCIAL\n';
+  text += '=====================================\n\n';
+
+  for (let i = 1; i <= TOTAL; i++) {
+    text += '-------------------------------------\n';
+    text += questions[i-1] + '\n';
+    text += '-------------------------------------\n';
+    text += (data['q' + i] || '[Não respondida]') + '\n\n';
+  }
+
+  text += '=====================================\n';
+  text += 'Documento gerado por CharlAI × AGB\n';
+  text += '=====================================\n';
+
+  downloadFile('GILSON_RESPOSTAS_' + date.replace(/\//g, '-') + '.txt', text);
+  showToast('Respostas exportadas com sucesso');
+}
+
+function exportJSON() {
+  saveToStorage();
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  const output = {
+    candidate: 'Gilson Marques',
+    campaign: 'Deputado Estadual 2026',
+    exported: new Date().toISOString(),
+    answers: {}
+  };
+  for (let i = 1; i <= TOTAL; i++) {
+    output.answers['q' + i] = {
+      question: questions[i-1],
+      answer: data['q' + i] || ''
+    };
+  }
+  downloadFile('GILSON_SISTEMA_' + Date.now() + '.json', JSON.stringify(output, null, 2));
+  showToast('Arquivo JSON exportado');
+}
+
+function clearAll() {
+  if (confirm('Tem certeza? Todas as respostas serão apagadas.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    for (let i = 1; i <= TOTAL; i++) {
+      const el = document.getElementById('q' + i);
+      if (el) el.value = '';
+    }
+    showToast('Respostas apagadas');
+  }
+}
+
+function downloadFile(filename, text) {
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+setInterval(() => saveToStorage(), 60000);
+</script>
+
+</body>
+</html>

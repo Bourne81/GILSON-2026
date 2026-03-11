@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificação de Fatos — Gilson Marques</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #1a2a3a;
+  --navy-mid: #243547;
+  --navy-light: #2e4259;
+  --gold: #c9a227;
+  --red: #c0392b;
+  --green: #27ae60;
+  --stone: #f5f3ef;
+  --white: #ffffff;
+  --border: #2e4259;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  background: var(--navy);
+  color: var(--stone);
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--navy-mid);
+  border-bottom: 2px solid var(--gold);
+  padding: 40px 0 32px;
+  text-align: center;
+}
+
+.header-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+.header-label {
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.header h1 {
+  font-size: 32px;
+  color: var(--white);
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+
+.header-sub {
+  font-family: 'Arial', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}
+
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 20px auto 0;
+}
+
+.intro {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.intro-box {
+  background: var(--navy-light);
+  border-left: 4px solid var(--gold);
+  padding: 24px;
+}
+
+.intro-box p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 12px;
+}
+
+.intro-box p:last-child { margin-bottom: 0; }
+
+/* SECTION */
+.section { max-width: 900px; margin: 40px auto 0; padding: 0 24px; }
+
+.section-title {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+/* FACT ITEM */
+.fact-item {
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 2px;
+}
+
+.fact-statement {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.fact-statement strong { color: var(--gold); }
+
+.fact-controls {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.control-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--gold);
+}
+
+.checkbox-label {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+
+.correct-label { color: var(--green); }
+.incorrect-label { color: var(--red); }
+
+.correction-field {
+  display: none;
+  grid-column: 1 / -1;
+  background: var(--navy);
+  border: 1px solid var(--red);
+  padding: 12px;
+  border-radius: 2px;
+}
+
+.correction-field.show { display: block; }
+
+.correction-field label {
+  display: block;
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  color: var(--gold);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.correction-field textarea {
+  width: 100%;
+  padding: 8px;
+  background: var(--navy-mid);
+  border: 1px solid var(--border);
+  color: var(--stone);
+  font-family: 'Georgia', serif;
+  border-radius: 2px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.fact-status {
+  font-family: 'Arial', sans-serif;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 2px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.status-pending { background: rgba(201,162,39,0.2); color: var(--gold); }
+.status-correct { background: rgba(39,174,96,0.2); color: var(--green); }
+.status-incorrect { background: rgba(192,57,43,0.2); color: var(--red); }
+
+/* ACTIONS */
+.actions {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border-radius: 2px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  font-weight: bold;
+}
+
+.btn-primary:hover { background: #e8b92a; }
+
+.btn-secondary {
+  background: var(--navy-light);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+.btn-secondary:hover { background: #334758; }
+
+/* PROGRESS */
+.progress {
+  max-width: 900px;
+  margin: 40px auto 0;
+  padding: 0 24px;
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.3s;
+  width: 0%;
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--navy-mid);
+  color: var(--white);
+  border: 1px solid var(--gold);
+  padding: 14px 24px;
+  border-radius: 2px;
+  font-family: 'Arial', sans-serif;
+  font-size: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 999;
+}
+
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  font-family: 'Arial', sans-serif;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .fact-controls { grid-template-columns: 1fr; }
+  .header h1 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-label">Verificação de Dados</div>
+    <h1>Fatos Biográficos — Gilson Marques</h1>
+    <div class="header-sub">Confirme, corrija ou valide cada informação abaixo</div>
+    <div class="gold-line"></div>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="intro-box">
+    <p><strong>Gilson,</strong></p>
+    <p>Antes de qualquer campanha, precisamos garantir que todos os fatos sobre você estão 100% corretos. Abaixo estão os dados biográficos coletados. Para cada um:</p>
+    <p><strong>✓ Correto</strong> = Deixe marcado. <strong>✗ Incorreto</strong> = Marque e preencha a correção.</p>
+    <p>Quando terminar, exporte para compartilhar com a equipe via email ou screenshot.</p>
+  </div>
+</div>
+
+<div class="progress">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <span id="progressText">0 / 0 verificações completas</span>
+</div>
+
+<!-- ORIGIN SECTION -->
+<div class="section">
+  <div class="section-title">Origem & Formação</div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Nascido em <strong>Rio do Sul, SC</strong> em <strong>12 de abril de 1981</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f1c" class="fact-check" checked onchange="updateFact(1)">
+          <label for="f1c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f1i" class="fact-check" onchange="updateFact(1)">
+          <label for="f1i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f1s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f1-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f1-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Pai: <strong>Luiz Cláudio</strong> (Caixa Econômica Federal). Mãe: <strong>Rosa da Silva</strong> (dona de casa)</div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f2c" class="fact-check" checked onchange="updateFact(2)">
+          <label for="f2c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f2i" class="fact-check" onchange="updateFact(2)">
+          <label for="f2i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f2s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f2-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f2-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Infância nômade: <strong>Pinhalzinho → Fraiburgo → Blumenau → Rodeio → Pomerode</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f3c" class="fact-check" checked onchange="updateFact(3)">
+          <label for="f3c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f3i" class="fact-check" onchange="updateFact(3)">
+          <label for="f3i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f3s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f3-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f3-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Educação: <strong>Direito (FURB, 2003)</strong> e <strong>MBA Direito Civil (FGV, 2010)</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f4c" class="fact-check" checked onchange="updateFact(4)">
+          <label for="f4c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f4i" class="fact-check" onchange="updateFact(4)">
+          <label for="f4i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f4s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f4-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f4-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<!-- CAREER SECTION -->
+<div class="section">
+  <div class="section-title">Carreira & Política</div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Carreira legal: <strong>Estagiário (1999) → Sócio de escritório (2004) → 15 anos como advogado</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f5c" class="fact-check" checked onchange="updateFact(5)">
+          <label for="f5c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f5i" class="fact-check" onchange="updateFact(5)">
+          <label for="f5i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f5s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f5-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f5-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Entrou na política em <strong>2016 (Lava-Jato)</strong>. Filiou-se ao <strong>NOVO em março de 2017</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f6c" class="fact-check" checked onchange="updateFact(6)">
+          <label for="f6c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f6i" class="fact-check" onchange="updateFact(6)">
+          <label for="f6i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f6s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f6-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f6-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">1ª eleição (2018): <strong>27.433 votos</strong> — 1º deputado NOVO eleito em SC</div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f7c" class="fact-check" checked onchange="updateFact(7)">
+          <label for="f7c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f7i" class="fact-check" onchange="updateFact(7)">
+          <label for="f7i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f7s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f7-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f7-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">2ª eleição (2022): <strong>87.894 votos</strong> — 10º mais votado em SC (3.2x crescimento)</div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f8c" class="fact-check" checked onchange="updateFact(8)">
+          <label for="f8c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f8i" class="fact-check" onchange="updateFact(8)">
+          <label for="f8i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f8s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f8-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f8-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEGISLATIVE SECTION -->
+<div class="section">
+  <div class="section-title">Legislação & Privilégios</div>
+
+  <div class="fact-item">
+    <div class="fact-statement">No 1º dia como deputado federal, renunciou: <strong>apartamento, carro, motorista, pensão, plano de saúde, mudança</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f9c" class="fact-check" checked onchange="updateFact(9)">
+          <label for="f9c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f9i" class="fact-check" onchange="updateFact(9)">
+          <label for="f9i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f9s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f9-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f9-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Proposições legislativas: <strong>1.534 em 2025</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f10c" class="fact-check" checked onchange="updateFact(10)">
+          <label for="f10c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f10i" class="fact-check" onchange="updateFact(10)">
+          <label for="f10i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f10s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f10-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f10-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Prêmios: <strong>Melhor parlamentar de SC (2019-2022)</strong> e <strong>2º em SC / 10º nacional (2023-2024)</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f11c" class="fact-check" checked onchange="updateFact(11)">
+          <label for="f11c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f11i" class="fact-check" onchange="updateFact(11)">
+          <label for="f11i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f11s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f11-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f11-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<!-- FAMILY SECTION -->
+<div class="section">
+  <div class="section-title">Vida Pessoal</div>
+
+  <div class="fact-item">
+    <div class="fact-statement">Casado com <strong>Camila</strong>. Filhos: <strong>Natália</strong> e <strong>Christian</strong></div>
+    <div class="fact-controls">
+      <div class="control-group">
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f12c" class="fact-check" checked onchange="updateFact(12)">
+          <label for="f12c" class="checkbox-label correct-label">Correto</label>
+        </div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="f12i" class="fact-check" onchange="updateFact(12)">
+          <label for="f12i" class="checkbox-label incorrect-label">Incorreto</label>
+        </div>
+      </div>
+      <div class="fact-status" id="f12s">✓ Pendente</div>
+    </div>
+    <div class="correction-field" id="f12-corr">
+      <label>Qual é a informação correta?</label>
+      <textarea id="f12-text" placeholder="Descreva a correção..."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary" onclick="exportTXT()">Exportar como TXT</button>
+  <button class="btn btn-secondary" onclick="exportJSON()">Exportar como JSON</button>
+  <button class="btn btn-secondary" onclick="copyToClipboard()">Copiar para Clipboard</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  GILSON MARQUES 2026 — VERIFICAÇÃO DE FATOS — CharlAI × AGB
+</div>
+
+<script>
+const facts = {
+  1: { question: "Nascimento", field: "f1" },
+  2: { question: "Pais", field: "f2" },
+  3: { question: "Cidades", field: "f3" },
+  4: { question: "Educação", field: "f4" },
+  5: { question: "Carreira", field: "f5" },
+  6: { question: "Política", field: "f6" },
+  7: { question: "1ª Eleição", field: "f7" },
+  8: { question: "2ª Eleição", field: "f8" },
+  9: { question: "Renúncia", field: "f9" },
+  10: { question: "Proposições", field: "f10" },
+  11: { question: "Prêmios", field: "f11" },
+  12: { question: "Família", field: "f12" }
+};
+
+function updateFact(id) {
+  const field = facts[id].field;
+  const correct = document.getElementById(field + 'c').checked;
+  const incorrect = document.getElementById(field + 'i').checked;
+  const statusEl = document.getElementById(field + 's');
+  const corrField = document.getElementById(field + '-corr');
+
+  if (incorrect) {
+    document.getElementById(field + 'c').checked = false;
+    statusEl.textContent = '✗ Incorreto';
+    statusEl.className = 'fact-status status-incorrect';
+    corrField.classList.add('show');
+  } else if (correct) {
+    document.getElementById(field + 'i').checked = false;
+    statusEl.textContent = '✓ Correto';
+    statusEl.className = 'fact-status status-correct';
+    corrField.classList.remove('show');
+  } else {
+    statusEl.textContent = '○ Pendente';
+    statusEl.className = 'fact-status status-pending';
+    corrField.classList.remove('show');
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  let completed = 0;
+  for (let i = 1; i <= 12; i++) {
+    const field = facts[i].field;
+    if (document.getElementById(field + 'c').checked || document.getElementById(field + 'i').checked) {
+      completed++;
+    }
+  }
+  const pct = Math.round((completed / 12) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = completed + ' / 12 verificações completas';
+}
+
+function exportTXT() {
+  let text = '=====================================\n';
+  text += 'GILSON MARQUES — VERIFICAÇÃO DE FATOS\n';
+  text += 'Data: ' + new Date().toLocaleDateString('pt-BR') + '\n';
+  text += '=====================================\n\n';
+
+  for (let i = 1; i <= 12; i++) {
+    const field = facts[i].field;
+    const correct = document.getElementById(field + 'c').checked;
+    const correction = document.getElementById(field + '-text').value;
+
+    text += facts[i].question + '\n';
+    text += correct ? '✓ CORRETO\n' : '✗ INCORRETO\n';
+    if (correction) {
+      text += 'Correção: ' + correction + '\n';
+    }
+    text += '\n';
+  }
+
+  text += '=====================================\n';
+  downloadFile('GILSON_FACTCHECK_' + new Date().toLocaleDateString('pt-BR').replace(/\//g, '-') + '.txt', text);
+  showToast('Exportado como TXT');
+}
+
+function exportJSON() {
+  const data = { verified: {}, corrections: {} };
+  for (let i = 1; i <= 12; i++) {
+    const field = facts[i].field;
+    const correct = document.getElementById(field + 'c').checked;
+    const correction = document.getElementById(field + '-text').value;
+
+    data.verified[facts[i].question] = correct ? 'correct' : 'incorrect';
+    if (correction) {
+      data.corrections[facts[i].question] = correction;
+    }
+  }
+  data.timestamp = new Date().toISOString();
+
+  downloadFile('GILSON_FACTCHECK_' + Date.now() + '.json', JSON.stringify(data, null, 2));
+  showToast('Exportado como JSON');
+}
+
+function copyToClipboard() {
+  let text = 'GILSON MARQUES — VERIFICAÇÃO DE FATOS\n\n';
+  for (let i = 1; i <= 12; i++) {
+    const field = facts[i].field;
+    const correct = document.getElementById(field + 'c').checked;
+    text += facts[i].question + ': ' + (correct ? '✓ OK' : '✗ CORRIGIR') + '\n';
+  }
+  navigator.clipboard.writeText(text);
+  showToast('Copiado para clipboard');
+}
+
+function downloadFile(filename, text) {
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
